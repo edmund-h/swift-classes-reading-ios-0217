@@ -58,7 +58,7 @@ class Planet {
         self.hasLife = hasLife
     }
 
-    func planetInfo() {
+    func planetInfo() -> String{
         var moonNoun = "moon"
         if self.numberOfMoons != 1 {
             moonNoun = "moons"
@@ -67,14 +67,14 @@ class Planet {
         if !self.hasLife {
             hasLifeString = "does not have life"
         }
-        print("\(self.name) has \(self.numberOfMoons) \(moonNoun). Its orbit is \(self.orbitalPeriod) days. It \(hasLifeString).")
+        return ("\(self.name) has \(self.numberOfMoons) \(moonNoun). Its orbit is \(self.orbitalPeriod) days. It \(hasLifeString).")
     }
 }
 
 let earth2 = Planet(name: "Earth", numberOfMoons: 1, orbitalPeriod: 365.26, hasLife: true)
 let mars2 = Planet(name: "Mars", numberOfMoons: 2, orbitalPeriod: 685.97, hasLife: false)
 
-func planetInfoObject(planet: Planet) {
+func planetInfoObject(planet: Planet){
     var moonNoun = "moon"
     if planet.numberOfMoons != 1 {
         moonNoun = "moons"
@@ -91,3 +91,40 @@ planetInfoObject(planet: mars2)
 
 earth2.planetInfo()
 mars2.planetInfo()
+
+class SolarSystem {
+    var planets : [Planet] = []
+    var haslife : Bool = false
+    var planetoids : Int = 0
+    var name : String = ""
+    
+    init (name : String , planets : [Planet] ,  planetoids : Int) {
+        for myPlanet in planets {
+            if myPlanet.hasLife { haslife = true }        }
+        self.planets = planets
+        self.planetoids = planetoids
+        self.name = name
+    }
+    
+    func ssInfo () -> String {
+        var infoString = "The solar system \(name) has \(planets.count) planets.\n"
+        for myPlanet in planets {
+            infoString.append(myPlanet.planetInfo() + "\n")
+        }
+        return infoString + "Additionally it has \(planetoids) other large objects of astronomical significance."
+    }
+}
+
+let mercury = Planet(name: "Mercury", numberOfMoons: 0, orbitalPeriod: 0.24*(365.26), hasLife: false)
+let venus = Planet(name: "Venus", numberOfMoons: 0, orbitalPeriod: 0.72*(365.26), hasLife: false)
+let jupiter = Planet(name: "Jupiter", numberOfMoons: 67, orbitalPeriod: 11.86*(365.26), hasLife: false)
+let saturn = Planet(name: "Saturn", numberOfMoons: 62, orbitalPeriod: 29.48*(365.26), hasLife: false)
+let uranus = Planet(name: "Uranus", numberOfMoons: 27, orbitalPeriod: 84.01*(365.26), hasLife: false)
+let neptune = Planet(name: "Neptune", numberOfMoons: 14, orbitalPeriod: 164.8*(365.26), hasLife: false)
+
+let planetsInSol = [mercury, venus, earth2, mars2, jupiter, saturn, uranus, neptune]
+let planetoids = 11
+
+let sol = SolarSystem (name: "Sol", planets: planetsInSol, planetoids: planetoids)
+
+print (sol.ssInfo())
